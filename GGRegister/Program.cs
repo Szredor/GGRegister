@@ -40,7 +40,8 @@ namespace GGRegister
 
             //Sprawdzanie numerow kolejno.
             Registration reg = new Registration();
-            for (int i = 0; i < numbers.Length; ++i)
+            int i;
+            for (i = 0; i < numbers.Length; ++i)
             {
                 if (o.Verbose) Console.Write("Trying {0}.{1}.", i + 1, numbers[i]);
 
@@ -68,6 +69,11 @@ namespace GGRegister
             reg.Dispose();
 
             //Jezeli uda sie zarejestrowac, to stworz nowy plik z niesprawdzonymi numerami.
+            if (o.UncheckedNumbersPath != "" && i < numbers.Length)
+            {
+                SaveNumbers(o.UncheckedNumbersPath, numbers, i + 1, numbers.Length - i - 1);
+                SaveNumbers(o.PhoneNumbersPath, numbers, 0, i + 1);
+            }
 
             return 0;
         }
@@ -177,5 +183,55 @@ namespace GGRegister
 
             return result.ToArray();
         }  
+
+        static private void SaveNumbers(string path, string[] numbers, int start, int length)
+        {
+            try
+            {
+                using (StreamWriter file = new StreamWriter(path))
+                {
+                    for (int i = 0; i < length; ++i)
+                    {
+                        file.WriteLine(numbers[start + i]);
+                    }
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine("Path to save numbers is empty or wrong.");
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine("Unauthorized access to {0}. Please try again.", path);
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("File {0} cannot be found. Please try again.", path);
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine("Directory {0} cannot be found. Please try again.", path);
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Occured IO error.");
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong during saving to {0}", path);
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "GGRegister": {
       "commandName": "Project",
-      "commandLineArgs": "-v PersonalData/personals.txt PersonalData/phones.txt",
+      "commandLineArgs": "-v PersonalData/personals.txt PersonalData/phones.txt -u PersonalData/unchecked.txt",
       "workingDirectory": "$(SolutionDir)\\GGRegister"
     }
   }
