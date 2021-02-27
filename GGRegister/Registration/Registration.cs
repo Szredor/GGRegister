@@ -90,6 +90,21 @@ namespace GGRegister
             { }
         }
 
+        private bool IsRegistrationSuccesful()
+        {
+            try
+            {
+                var errors = WaitUntilVisible(By.Id("errors"));
+                if (errors == null)
+                    return true;
+                return false;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
         public bool RegisterAccount(RegisterData data)
         {
             driver.Navigate().GoToUrl("https://login.ggapp.com/en/register2/create-gg?origin=https%3A%2F%2Fwww.ggapp.com");
@@ -99,14 +114,11 @@ namespace GGRegister
             SecondRegistrationWindow(data.FirstLastName, data.BirthDate, data.Town);
             ThirdRegistrationWindow(data.PhoneNumber);
 
-            //Tutaj dodac mechanizm sprawdzania, czy sie udalo zarejestrowac
-            //Jezeli sie udalo, to poczekac na wpisanie danych przez czlowieka (kod potwierdzajacy)
-            //Moze wydac jakis dzwiek przy udanym?
-
-
-
             //Sprawdzić, czy rejestracja zakończyła się pomyślnie
-
+            if (IsRegistrationSuccesful())
+            {
+                return true;
+            }
 
             return false;
         }
@@ -119,7 +131,7 @@ namespace GGRegister
                 var clickableElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
                 return clickableElement;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -133,7 +145,7 @@ namespace GGRegister
                 var clickableElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(element));
                 return clickableElement;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -147,7 +159,7 @@ namespace GGRegister
                 var clickableElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(element));
                 return clickableElement;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }

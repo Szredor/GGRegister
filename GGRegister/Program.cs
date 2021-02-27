@@ -42,12 +42,22 @@ namespace GGRegister
             Registration reg = new Registration();
             for (int i = 0; i < numbers.Length; ++i)
             {
-                if (o.Verbose) Console.WriteLine("Trying {0}.{1}", i + 1, numbers[i]);
+                if (o.Verbose) Console.Write("Trying {0}.{1}.", i + 1, numbers[i]);
 
                 data.PhoneNumber = numbers[i];
                 try
                 {
-                    reg.RegisterAccount(data);
+                    if (reg.RegisterAccount(data))
+                    {
+                        Console.WriteLine("\aRegistration successful! Don't close this program and head to web browser to finish registation.");
+                        Console.WriteLine("Press any key to exit.");
+                        Console.ReadKey();
+                        break;
+                    }
+                    else if (o.Verbose)
+                    {
+                        Console.WriteLine(" Failed.");
+                    }
                 }
                 catch (Exception e)
                 {
