@@ -84,7 +84,7 @@ namespace GGRegister
             //Czasami należy ponowić naciśniecie przycisku z numerem
             try
             {
-                driver.FindElement(By.Id("sms_confirm_confirm")).Click();
+                WaitUntilVisible(By.Id("sms_confirm_confirm"), 1).Click();
             }
             catch
             { }

@@ -50,7 +50,9 @@ namespace GGRegister
                 {
                     if (reg.RegisterAccount(data))
                     {
-                        Console.WriteLine("\aRegistration successful! Don't close this program and head to web browser to finish registation.");
+                        if (o.Verbose)
+                            Console.WriteLine();
+                        Console.WriteLine("\aRegistration successful on {0}! Don't close this program and head to web browser to finish registation.", data.PhoneNumber);
                         Console.WriteLine("Press any key to exit.");
                         Console.ReadKey();
                         break;
@@ -89,7 +91,6 @@ namespace GGRegister
                     data.FirstLastName = personals.ReadLine();
                     data.BirthDate = personals.ReadLine();
                     data.Town = personals.ReadLine();
-                    data.PhoneNumber = personals.ReadLine();
                 }
             }
             catch (OutOfMemoryException e)
@@ -149,7 +150,6 @@ namespace GGRegister
                 Console.WriteLine(e.Message);
                 Environment.Exit(1);
             }
-
             catch (ArgumentException e)
             {
                 Console.WriteLine("Path to Personal Data is empty.");
