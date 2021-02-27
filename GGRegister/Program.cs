@@ -47,7 +47,7 @@ namespace GGRegister
                 data.PhoneNumber = numbers[i];
                 try
                 {
-                    reg.RegisterAccount(data, i == 0);
+                    reg.RegisterAccount(data);
                 }
                 catch (Exception e)
                 {
